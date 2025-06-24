@@ -1,0 +1,8 @@
+---
+schema-version: v1
+kind: mergegate
+rules:
+  - require: commit-signatures
+    excluded_emails:
+      - '205981682+dd-btfhub-ebpf-platform[bot]@users.noreply.github.com'
+
