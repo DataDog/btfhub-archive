@@ -1,0 +1,25 @@
+name: PR Auto Review
+
+on: [pull_request]
+
+env:
+  AUTO_REVIEWER_VERSION: "1.2.0"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+        with:
+          repository: DataDog/auto-reviewer
+          path: auto-reviewer
+          ref: ${{ env.AUTO_REVIEWER_VERSION }}
+          token: ${{ secrets.AUTO_REVIEWER_TOKEN }}
+      - uses: ./auto-reviewer
+        with:
+          dry_run: false
+          draft_pr_approval: false
+          enforce_author_and_file_paths: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.AUTO_REVIEWER_TOKEN }}
