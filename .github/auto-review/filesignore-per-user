@@ -1,0 +1,3 @@
+dd-btfhub-ebpf-platform: *.btf.tar.xz
+dd-btfhub-ebpf-platform: *.failed
+dd-btfhub-ebpf-platform: *.hasbtf
