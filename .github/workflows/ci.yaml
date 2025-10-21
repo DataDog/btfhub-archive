@@ -1,0 +1,29 @@
+name: btfhub-archive CI
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - '**.btf.tar.xz'
+      - '**.hasbtf'
+      - '**.failed'
+jobs:
+  check-btf:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+        with:
+          fetch-depth: 2
+          sparse-checkout: |
+            README.md
+          sparse-checkout-cone-mode: false
+      - run: |
+          for file in $(git diff --name-only HEAD^1 HEAD | xargs); do
+            if [[ "$file" == *".btf.tar.xz" ]]; then
+              echo "Checking $file"
+              git sparse-checkout add "$file"
+              if [[ "$(tar tf $file | wc -l)" != "1" ]]; then
+                echo "$file should only have one .btf file within"
+                exit 1
+              fi
+            fi
+          done
