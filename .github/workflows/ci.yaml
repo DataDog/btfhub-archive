@@ -20,7 +20,7 @@ jobs:
           for file in $(git diff --name-only HEAD^1 HEAD | xargs); do
             if [[ "$file" == *".btf.tar.xz" ]]; then
               echo "Checking $file"
-              git sparse-checkout add "$file"
+              git sparse-checkout add /"$file"
               if [[ "$(tar tf $file | wc -l)" != "1" ]]; then
                 echo "$file should only have one .btf file within"
                 exit 1
